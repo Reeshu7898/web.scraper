@@ -1,47 +1,48 @@
-# Books to Scrape Web Scraper
+# Books Web Scraper and Analysis
 
-A small Python scraper that collects book information from [Books to Scrape](https://books.toscrape.com/), a site intended for scraping practice.
+This project scrapes book listings from [Books to Scrape](https://books.toscrape.com/), then explores the cleaned dataset with data-quality checks, visualizations, and a price-rating hypothesis test.
 
-## What it does
+## Project layout
 
-- Fetches the catalog page with requests.
-- Parses book listings with Beautiful Soup.
-- Collects each book's title, price in GBP, star rating, and availability.
-- Converts star ratings to numbers and saves the results to a CSV file.
-- Prints the number of books and average price and rating.
-
-## Requirements
-
-- Python 3
-- requests
-- beautifulsoup4
-- pandas
-
-## Setup
-
-Install the dependencies:
-
-```bash
-python -m pip install requests beautifulsoup4 pandas
+```text
+web.scraper/
+├── README.md
+├── scraper.py
+├── eda.py
+├── data_quality.py
+├── hypothesis_test.py
+├── eda_report.py
+├── data/
+│   ├── books_dataset.csv
+│   └── books_dataset_clean.csv
+├── reports/
+│   ├── EDA_Report.md
+│   └── hypothesis_results.txt
+├── visualizations/
+│   ├── book_price_distribution.png
+│   ├── book_rating_distribution.png
+│   ├── book_price_vs_rating.png
+│   ├── price_distribution.png
+│   ├── rating_distribution.png
+│   └── price_vs_rating.png
+└── requirements.txt
 ```
 
-## Run
+The unprefixed chart files are older exports retained from the existing project; `eda.py` generates the `book_*.png` charts.
 
-From the directory containing scraper.py, run:
+## Setup and run
+
+From the project directory:
 
 ```bash
+python -m pip install -r requirements.txt
 python scraper.py
+python data_quality.py
+python eda.py
+python hypothesis_test.py
+python eda_report.py
 ```
 
-## Output
+The scraper writes the refreshed cleaned dataset to `data/books_dataset_clean.csv`. Analysis scripts read from `data/`, charts are saved in `visualizations/`, and generated reports are saved in `reports/`. The scripts resolve these paths relative to their own location, so they can also be launched from another working directory.
 
-The script creates books_dataset_clean.csv in the current working directory. The CSV contains these columns:
-
-| Column | Description |
-| --- | --- |
-| Title | Book title |
-| Price_GBP | Price in pounds sterling |
-| Rating | Star rating from 1 to 5 |
-| Availability | Availability text shown on the page |
-
-The scraper currently processes the books listed on the catalog page; it does not follow pagination.
+`data/books_dataset.csv` is the original source snapshot; the scraper generates the normalized cleaned dataset separately.
